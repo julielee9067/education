@@ -1,9 +1,22 @@
+## Set up
+`secret_constant.py` file must be in client folder
+```
+SSH_HOST = "eceUbuntu.uwaterloo.ca"
+SSH_USERNAME = "{USERNAME}"
+SSH_PASSWORD = "{PASSWORD}"
+DB_USERNAME = "{DB USERNAME}"
+DB_PASSWORD = "{DB PAPSSWORD}"
+DB_NAME = "{DB NAME}"
+HOST = "marmoset04.shoshin.uwaterloo.ca"
+```
+
+## Questions
 ### From students’ perspective
 - Get the number of assessments they need to complete for a specific module
 - Get average grade for an assessment
 - Post a review for a course if they took the course
 - Get average rating for a course
-**- Show reviews for a course**
+- **Show reviews for a course**
 
 ### From professors’ perspective
 - Change students’ grades for assessments

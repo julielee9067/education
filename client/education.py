@@ -3,7 +3,7 @@ from datetime import date
 import mysql.connector
 import sshtunnel
 
-from secret_constants import SSH_HOST, SSH_USERNAME, SSH_PASSWORD, HOST, DB_USERNAME, DB_PASSWORD, DB_NAME
+from client.secret_constants import SSH_HOST, SSH_USERNAME, SSH_PASSWORD, HOST, DB_USERNAME, DB_PASSWORD, DB_NAME
 
 
 def open_ssh_tunnel():

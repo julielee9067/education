@@ -1,9 +1,9 @@
 import argparse
 
-from education import EducationClient
+from client.education import EducationClient
 
 
-def main():
+def create_parser():
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
 
@@ -116,6 +116,11 @@ def main():
         help="Insert new status for a student's course"
     )
 
+    return parser
+
+
+def main():
+    parser = create_parser()
     args = parser.parse_args()
     client = EducationClient()
     if args.register:

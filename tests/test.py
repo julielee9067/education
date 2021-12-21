@@ -87,7 +87,14 @@ class TestClient(unittest.TestCase):
         num_student_after = self.client.get_num_student_registered(course_id=self.course_id)
         self.assertEqual(num_student_before + 1, num_student_after)
 
-        # Test registering existing student
+        # Test registering existing but unregistered student
+        student_id = self.get_one_unregistered_student(course_id=self.course_id)
+        num_student_before = self.client.get_num_student_registered(course_id=self.course_id)
+        self.client.register_student_for_course(student_id=student_id, course_id=self.course_id)
+        num_student_after = self.client.get_num_student_registered(course_id=self.course_id)
+        self.assertEqual(num_student_before + 1, num_student_after)
+
+        # Test registering registered student
         student_id = self.get_one_registered_student(course_id=self.course_id)
         num_student_before = self.client.get_num_student_registered(course_id=self.course_id)
         with self.assertRaises(Exception):

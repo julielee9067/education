@@ -30,11 +30,11 @@ HOST = "marmoset04.shoshin.uwaterloo.ca"
 
 ## Example commands
 - Register a student for a course
-  - `python client/main.py --register --course_id AAA_2013J --student_id 24186`
+  - `python client/main.py --register --course_id AAA_2013J --student_id 45462`
 - Unregister a student for a course
-  - `python client/main.py --unregister --course_id AAA_2013J --student_id 24186`
+  - `python client/main.py --unregister --course_id AAA_2013J --student_id 45462`
 - Post a review for a course
-  - `python client/main.py --post_review --course_id AAA_2013J --student_id 24186 --review 'good course' --rating 4`
+  - `python client/main.py --post_review --course_id AAA_2013J --student_id 45462 --review 'good course' --rating 4`
 - Get average grade for an assessment
   - `python client/main.py --average_assessment --assessment_id 1752`
 - Get number of registered student for a course
@@ -44,11 +44,11 @@ HOST = "marmoset04.shoshin.uwaterloo.ca"
 - Get number of assessment for a course
   - `python client/main.py --get_num_assessments --course_id AAA_2013J`
 - Modify grade:
-  - `python client/main.py --modify_grade --assessment_id 1752 --student_id 24186 --grade 100`
-  - `python client/main.py --modify_grade --assessment_id 1752 --student_id 24186 --grade 50`
+  - `python client/main.py --modify_grade --assessment_id 1752 --student_id 11391 --grade 100`
+  - `python client/main.py --modify_grade --assessment_id 1752 --student_id 11391 --grade 50`
 - Modify status:
-  - `python client/main.py --modify_status --course_id AAA_2013J --student_id 24186 --status Fail`
-  - `python client/main.py --modify_status --course_id AAA_2013J --student_id 24186 --status Pass`
+  - `python client/main.py --modify_status --course_id AAA_2013J --student_id 45462 --status Fail`
+  - `python client/main.py --modify_status --course_id AAA_2013J --student_id 45462 --status Pass`
 - Get average rating for a course
   - `python client/main.py --average_rating --course_id AAA_2013J`
 - Get review for a course

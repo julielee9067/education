@@ -53,7 +53,6 @@ class EducationClient:
         self.cursor.execute(query)
         student_info = self.cursor.fetchone()
         self.education.commit()
-        print(student_info)
         if student_info is None:
             raise Exception(f"Student info is not found for the assessment {assessment_id}")
 
@@ -109,7 +108,8 @@ class EducationClient:
             num_prev_attempt = 0
         query = f"""
             INSERT INTO student_registration (student_id, course_id, is_registered, num_of_prev_attempts, final_result)
-            VALUES ({student_id}, '{course_id}', TRUE, {num_prev_attempt}, NULL);
+            VALUES ({student_id}, '{course_id}', TRUE, {num_prev_attempt}, NULL)
+            ON DUPLICATE KEY UPDATE is_registered = TRUE;
         """
         self.cursor.execute(query)
         self.education.commit()
@@ -144,8 +144,8 @@ class EducationClient:
         self.cursor.execute(query)
         average = self.cursor.fetchone()
         self.education.commit()
-        print(f"The average grade is {average['average']}% for an assessment: {assessment_id}")
-        return average["average"]
+        print(f"The average grade is {average['average_score']}% for an assessment: {assessment_id}")
+        return average["average_score"]
 
     def get_num_student_registered(self, course_id: str) -> int:
         self.get_course_info(course_id=course_id)

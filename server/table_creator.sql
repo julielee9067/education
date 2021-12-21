@@ -42,7 +42,7 @@ CREATE TABLE student (
 CREATE TABLE student_registration (
     student_id int NOT NULL,
     course_id int NOT NULL,
-    is_registered bool NOT NULL DEFAULT FALSE,
+    is_registered bool NOT NULL DEFAULT TRUE,
     num_of_prev_attempts int,
     final_result varchar(45),
     FOREIGN KEY (student_id) REFERENCES student(student_id),

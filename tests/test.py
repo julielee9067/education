@@ -252,6 +252,11 @@ class TestClient(unittest.TestCase):
         )
         self.assertEqual(new_status, changed_status)
 
+    def test_get_average_grade_for_assessment(self):
+        # Test getting average grade for invalid assessment
+        with self.assertRaises(Exception):
+            self.client.get_average_grade_for_assessment(assessment_id=-1)
+
     def test_get_average_rating_for_course(self):
         # Test getting average rating for unknown course
         with self.assertRaises(Exception):

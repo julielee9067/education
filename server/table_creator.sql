@@ -97,6 +97,9 @@ CREATE TABLE assessment (
     FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
 
+INSERT INTO assessment (assessment_id, course_id, assessment_type, date, weight)
+SELECT id_assessment, concat(code_module, '_', code_presentation) AS course_id, assessment_type, date, weight FROM assessments;
+
 CREATE TABLE student_assessment (
     student_id int NOT NULL,
     assessment_id int NOT NULL,
@@ -105,3 +108,6 @@ CREATE TABLE student_assessment (
     FOREIGN KEY (student_id) REFERENCES student(student_id),
     FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)
 );
+
+INSERT INTO student_assessment (student_id, assessment_id, score, date_submitted)
+SELECT id_student, id_assessment, score, date_submitted FROM studentAssessment;

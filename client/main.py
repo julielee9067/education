@@ -149,7 +149,7 @@ def main():
         client.get_num_student_registered(course_id=args.course_id)
 
     if args.get_num_unregistered:
-        if args.coures_id is None:
+        if args.course_id is None:
             raise ValueError("Valid course ID is required for this operation.")
         client.get_num_student_unregistered(course_id=args.course_id)
 

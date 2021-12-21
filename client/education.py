@@ -35,9 +35,10 @@ class EducationClient:
             WHERE student_id = {student_id} AND course_id = '{course_id}';
         """
         self.cursor.execute(num_prev_attempt_query)
-        num_prev_attempt = self.cursor.fetchone() if self.cursor.fetchone() else 0
+        num_prev_attempt = self.cursor.fetchone()
         self.education.commit()
-
+        num_prev_attempt = num_prev_attempt[0] if num_prev_attempt is not None else 0
+        print(f"Student found with number of previous attempt: {num_prev_attempt}")
         query = f"""
             INSERT INTO student_registration (student_id, course_id, is_registered, num_of_prev_attempts, final_result)
             VALUES ({student_id}, '{course_id}', TRUE, {num_prev_attempt}, NULL);
@@ -48,7 +49,8 @@ class EducationClient:
 
     def unregister_student_from_course(self, student_id: int, course_id: str) -> None:
         query = f"""
-            DELETE FROM student_registration WHERE student_id = {student_id} AND course_id = '{course_id}';
+            UPDATE student_registration SET is_registered=FALSE 
+            WHERE course_id='{course_id}' AND student_id={student_id};
         """
         self.cursor.execute(query)
         self.education.commit()
@@ -56,7 +58,7 @@ class EducationClient:
 
     def post_review(self, course_id: str, review_content: str, student_id: int, rating: int) -> None:
         student_query = f"""
-            SELECT student_id FROM studentRegistration WHERE course_id = '{course_id}' AND student_id = {student_id};
+            SELECT student_id FROM student_registration WHERE course_id = '{course_id}' AND student_id = {student_id};
         """
         self.cursor.execute(student_query)
         student = self.cursor.fetchone()
@@ -65,7 +67,7 @@ class EducationClient:
         if student is not None:
             query = f"""
                 INSERT INTO review (review, course_id, student_id, date, rating)
-                VALUE ('{review_content}', '{course_id}', {student_id}, {date.today()}, {rating});
+                VALUE ('{review_content}', '{course_id}', {student_id}, '{date.today()}', {rating});
             """
             self.cursor.execute(query)
             self.education.commit()
@@ -76,12 +78,12 @@ class EducationClient:
 
     def get_average_grade_for_assessment(self, assessment_id: int) -> float:
         query = f"""
-            SELECT AVG(score) AS average_score FROM student_assessment WHERE assessmnet_id = {assessment_id};
+            SELECT AVG(score) AS average_score FROM student_assessment WHERE assessment_id = {assessment_id};
         """
         self.cursor.execute(query)
         average = self.cursor.fetchone()
         self.education.commit()
-        print(f"The average rating is {average[0]} for an assessment: {assessment_id}")
+        print(f"The average grade is {average[0]}% for an assessment: {assessment_id}")
         return average[0]
 
     def get_num_student_registered(self, course_id: str) -> int:

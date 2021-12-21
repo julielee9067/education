@@ -1,7 +1,15 @@
+CREATE TABLE instructor (
+    instructor_id int NOT NULL,
+    first_name varchar(45),
+    last_name varchar(45),
+    PRIMARY KEY (instructor_id)
+);
+
 CREATE TABLE course (
     course_id varchar(100) NOT NULL,
-    institution varchar(45),
-    PRIMARY KEY (course_id)
+    instructor_id int,
+    PRIMARY KEY (course_id),
+    FOREIGN KEY (instructor_id) REFERENCES instructor(instructor_id)
 );
 
 CREATE TABLE review (
@@ -17,7 +25,9 @@ CREATE TABLE review (
 
 CREATE TABLE student (
     student_id int NOT NULL,
-    id_student int,
+    first_name varchar(50),
+    last_name varchar(50),
+    email varchar(100),
     gender varchar(45),
     region varchar(45),
     highest_education varchar(45),
@@ -27,7 +37,6 @@ CREATE TABLE student (
     disability varchar(45),
     PRIMARY KEY (student_id)
 );
-
 
 CREATE TABLE student_registration (
     student_id int NOT NULL,

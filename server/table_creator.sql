@@ -59,7 +59,7 @@ CREATE TABLE review (
     review_id int AUTO_INCREMENT,
     student_id int NOT NULL,
     review varchar(1000),
-    course_id varchar(100),
+    course_id varchar(100) NOT NULL,
     date date,
     rating int,
     PRIMARY KEY (review_id),

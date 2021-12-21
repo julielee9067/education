@@ -5,7 +5,7 @@ SSH_HOST = "eceUbuntu.uwaterloo.ca"
 SSH_USERNAME = "{USERNAME}"
 SSH_PASSWORD = "{PASSWORD}"
 DB_USERNAME = "{DB USERNAME}"
-DB_PASSWORD = "{DB PAPSSWORD}"
+DB_PASSWORD = "{DB PASSWORD}"
 DB_NAME = "{DB NAME}"
 HOST = "marmoset04.shoshin.uwaterloo.ca"
 ```
@@ -17,6 +17,7 @@ HOST = "marmoset04.shoshin.uwaterloo.ca"
 - Post a review for a course if they took the course
 - Get average rating for a course
 - **Show reviews for a course**
+- **Get instructor for a course**
 
 ### From professors’ perspective
 - Change students’ grades for assessments

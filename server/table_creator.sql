@@ -73,6 +73,7 @@ CREATE TABLE student_registration (
     is_registered bool NOT NULL DEFAULT TRUE,
     num_of_prev_attempts int,
     final_result varchar(45),
+    PRIMARY KEY (student_id, course_id),
     FOREIGN KEY (student_id) REFERENCES student(student_id),
     FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
@@ -105,6 +106,7 @@ CREATE TABLE student_assessment (
     assessment_id int NOT NULL,
     score int,
     date_submitted int,
+    PRIMARY KEY (student_id, assessment_id),
     FOREIGN KEY (student_id) REFERENCES student(student_id),
     FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)
 );

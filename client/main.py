@@ -134,7 +134,7 @@ def main():
         client.unregister_student_from_course(student_id=args.student_id, course_id=args.course_id)
 
     if args.post_review:
-        if args.student_id is None or args.course_id is None or args.review is None or args.rating is None:
+        if args.student_id is None or args.course_id is None or args.rating is None:
             raise ValueError("Valid student ID, course ID, review content, and rating are required for this operation.")
         client.post_review(
             course_id=args.course_id,

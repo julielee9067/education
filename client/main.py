@@ -6,13 +6,6 @@ from education import EducationClient
 def main():
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
-    #
-    # parser.add_argument(
-    #     "-a",
-    #     dest="action",
-    #     type=str,
-    #     help="The action a user can take"
-    # )
 
     group.add_argument(
         "--register",
@@ -66,6 +59,12 @@ def main():
         "--modify_grade",
         action="store_true",
         help="Modify grade for an assessment"
+    )
+
+    group.add_argument(
+        "--modify_status",
+        action="store_true",
+        help="Modify status for a course"
     )
 
     parser.add_argument(

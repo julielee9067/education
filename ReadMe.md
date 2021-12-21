@@ -16,8 +16,8 @@ HOST = "marmoset04.shoshin.uwaterloo.ca"
 - Get average grade for an assessment
 - Post a review for a course if they took the course
 - Get average rating for a course
-- **Show reviews for a course**
-- **Get instructor for a course**
+- Show reviews for a course
+- Get instructor for a course
 
 ### From professors’ perspective
 - Change students’ grades for assessments
@@ -51,3 +51,7 @@ HOST = "marmoset04.shoshin.uwaterloo.ca"
   - `python client/main.py --modify_status --course_id AAA_2013J --student_id 24186 --status Pass`
 - Get average rating for a course
   - `python client/main.py --average_rating --course_id AAA_2013J`
+- Get review for a course
+  - `python client/main.py --show_review --course_id AAA_2013J`
+- Get instructor name for a course
+  - `python client/main.py --get_instructor --course_id AAA_2013J`

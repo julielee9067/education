@@ -1,7 +1,7 @@
 import random
 import unittest
 
-from mysql.connector import IntegrityError, ProgrammingError
+from mysql.connector import ProgrammingError
 
 from client.education import EducationClient
 
@@ -244,3 +244,23 @@ class TestClient(unittest.TestCase):
             course_id=self.course_id
         )
         self.assertEqual(new_status, changed_status)
+
+    def test_get_average_rating_for_course(self):
+        # Test getting average rating for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_average_rating_for_course(course_id=self.unknown_course_id)
+
+    def test_show_review_for_course(self):
+        # Test getting review for unknown course
+        with self.assertRaises(Exception):
+            self.client.show_review_for_course(course_id=self.unknown_course_id)
+
+    def test_get_instructor_info_for_course(self):
+        # Test getting instructor information for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_instructor_info_for_course(course_id=self.unknown_course_id)
+
+        # Test getting valid instructor
+        instructor_info = self.client.get_instructor_info_for_course(course_id=self.course_id)
+        self.assertEqual("John", instructor_info["first_name"])
+        self.assertEqual("Smith", instructor_info["last_name"])

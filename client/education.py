@@ -52,13 +52,24 @@ class EducationClient:
         self.cursor.execute(query)
         self.education.commit()
 
-    def post_review(self, course_id: str, review_content: str, reviewer: str, rating: int) -> None:
-        query = f"""
-            INSERT INTO review (review, course_id, reviewer, date, rating)
-            VALUE ({review_content}, {course_id}, {reviewer}, {date.today()}, {rating});
+    def post_review(self, course_id: str, review_content: str, student_id: int, rating: int) -> None:
+        student_query = f"""
+            SELECT student_id FROM studentRegistration WHERE course_id = {course_id} AND student_id = {student_id};
         """
-        self.cursor.execute(query)
+        self.cursor.execute(student_query)
+        student = self.cursor.fetchone()
         self.education.commit()
+
+        if student is not None:
+            query = f"""
+                INSERT INTO review (review, course_id, student_id, date, rating)
+                VALUE ({review_content}, {course_id}, {student_id}, {date.today()}, {rating});
+            """
+            self.cursor.execute(query)
+            self.education.commit()
+
+        else:
+            print("YOU CAN ONLY POST A REVIEW AFTER TAKING THE COURSE. ")
 
     def get_average_grade_for_assessment(self, assessment_id: int) -> float:
         query = f"""

@@ -97,13 +97,6 @@ def main():
     )
 
     parser.add_argument(
-        "--reviewer",
-        dest="reviewer",
-        type=str,
-        help="Insert reviewer name for a course review"
-    )
-
-    parser.add_argument(
         "--grade",
         dest="new_grade",
         type=int,
@@ -129,7 +122,7 @@ def main():
         client.post_review(
             course_id=args.course_id,
             review_content=args.review,
-            reviewer=args.reviewer,
+            student_id=args.student_id,
             rating=args.rating
         )
 

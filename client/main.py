@@ -1,11 +1,18 @@
 import argparse
 
-from client.education import EducationClient
+from education import EducationClient
 
 
 def main():
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
+    #
+    # parser.add_argument(
+    #     "-a",
+    #     dest="action",
+    #     type=str,
+    #     help="The action a user can take"
+    # )
 
     group.add_argument(
         "--register",
@@ -112,13 +119,19 @@ def main():
 
     args = parser.parse_args()
     client = EducationClient()
-    if args.actiion == "register":
+    if args.register:
+        if args.student_id is None or args.course_id is None:
+            raise ValueError("Valid student ID and course ID are required for this operation.")
         client.register_student_for_course(student_id=args.student_id, course_id=args.course_id)
 
-    if args.action == "unregister":
+    if args.unregister:
+        if args.student_id is None or args.course_id is None:
+            raise ValueError("Valid student ID and course ID are required for this operation.")
         client.unregister_student_from_course(student_id=args.student_id, course_id=args.course_id)
 
-    if args.action == "post_review":
+    if args.post_review:
+        if args.student_id is None or args.course_id is None or args.review is None or args.rating is None:
+            raise ValueError("Valid student ID, course ID, review content, and rating are required for this operation.")
         client.post_review(
             course_id=args.course_id,
             review_content=args.review,
@@ -126,33 +139,47 @@ def main():
             rating=args.rating
         )
 
-    if args.action == "average_assessment":
+    if args.average_assessment:
+        if args.assessment_id is None:
+            raise ValueError("Valid assessment ID is required for this operation.")
         client.get_average_grade_for_assessment(assessment_id=args.assessment_id)
 
-    if args.action == "get_num_registered":
+    if args.get_num_registered:
+        if args.course_id is None:
+            raise ValueError("Valid course ID is required for this operation.")
         client.get_num_student_registered(course_id=args.course_id)
 
-    if args.action == "get_num_unregistered":
+    if args.get_num_unregistered:
+        if args.coures_id is None:
+            raise ValueError("Valid course ID is required for this operation.")
         client.get_num_student_unregistered(course_id=args.course_id)
 
-    if args.action == "get_num_assessments":
+    if args.get_num_assessments:
+        if args.course_id is None:
+            raise ValueError("Valid course ID is required for this operation.")
         client.get_num_assessment_for_course(course_id=args.course_id)
 
-    if args.action == "modify_grade":
+    if args.modify_grade:
+        if args.assessment_id is None or args.student_id is None or args.new_grade is None:
+            raise ValueError("Valid assessment ID, student ID, and new grade is required for this operation.")
         client.modify_grade_for_assessment(
             assessment_id=args.assessment_id,
             student_id=args.student_id,
             new_grade=args.new_grade
         )
 
-    if args.action == "modify_status":
+    if args.modify_status:
+        if args.course_id is None or args.student_id is None or args.new_status is None:
+            raise ValueError("Valid course ID, student ID, and new status is required for this operation.")
         client.modify_status_for_course(
             course_id=args.course_id,
             student_id=args.student_id,
             new_status=args.new_status
         )
 
-    if args.action == "average_rating":
+    if args.average_rating:
+        if args.course_id is None:
+            raise ValueError("Valid course ID is required for this operation.")
         client.get_average_rating_for_course(course_id=args.course_id)
 
 

@@ -3,7 +3,7 @@ from datetime import date
 import mysql.connector
 import sshtunnel
 
-from secret_constants import SSH_HOST, SSH_USERNAME, SSH_PASSWORD, LOCALHOST, DB_USERNAME, DB_PASSWORD, DB_NAME
+from secret_constants import SSH_HOST, SSH_USERNAME, SSH_PASSWORD, HOST, DB_USERNAME, DB_PASSWORD, DB_NAME
 
 
 def open_ssh_tunnel():
@@ -13,7 +13,7 @@ def open_ssh_tunnel():
         (SSH_HOST, 22),
         ssh_username=SSH_USERNAME,
         ssh_password=SSH_PASSWORD,
-        remote_bind_address=(LOCALHOST, 3306)
+        remote_bind_address=(HOST, 3306)
     )
 
     tunnel.start()
@@ -22,7 +22,7 @@ def open_ssh_tunnel():
 class EducationClient:
     def __init__(self):
         self.education = mysql.connector.connect(
-            host=LOCALHOST,
+            host=HOST,
             user=DB_USERNAME,
             passwd=DB_PASSWORD,
             database=DB_NAME

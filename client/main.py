@@ -128,6 +128,14 @@ def create_parser():
         help="Insert new status for a student's course"
     )
 
+    parser.add_argument(
+        "--new",
+        dest="is_new_student",
+        type=bool,
+        default=False,
+        help="Indicate if the student is new to the course"
+    )
+
     return parser
 
 
@@ -138,7 +146,11 @@ def main():
     if args.register:
         if args.student_id is None or args.course_id is None:
             raise ValueError("Valid student ID and course ID are required for this operation.")
-        client.register_student_for_course(student_id=args.student_id, course_id=args.course_id)
+        client.register_student_for_course(
+            student_id=args.student_id,
+            course_id=args.course_id,
+            is_new_student=args.is_new_student
+        )
 
     if args.unregister:
         if args.student_id is None or args.course_id is None:

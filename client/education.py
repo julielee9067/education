@@ -3,7 +3,6 @@ from typing import Dict
 
 import mysql.connector
 import sshtunnel
-from mysql.connector import IntegrityError
 
 from client.secret_constants import SSH_HOST, SSH_USERNAME, SSH_PASSWORD, HOST, DB_USERNAME, DB_PASSWORD, DB_NAME
 

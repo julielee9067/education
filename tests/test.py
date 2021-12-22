@@ -172,21 +172,6 @@ class TestClient(unittest.TestCase):
         num_review_after = self.get_num_review(student_id=student_id, course_id=self.course_id)
         self.assertEqual(num_review_before, num_review_after)
 
-    def test_get_num_student_registered(self):
-        # Test getting number of student registered for unknown course
-        with self.assertRaises(Exception):
-            self.client.get_num_student_registered(course_id=self.unknown_course_id)
-
-    def test_get_num_student_unregistered(self):
-        # Test getting number of student unregistered for unknown course
-        with self.assertRaises(Exception):
-            self.client.get_num_student_unregistered(course_id=self.unknown_course_id)
-
-    def test_get_num_assessment_for_course(self):
-        # Test getting number of assessment for unknown course
-        with self.assertRaises(Exception):
-            self.client.get_num_assessment_for_course(course_id=self.unknown_course_id)
-
     def test_modify_grade_for_assessment(self):
         student_id = self.get_one_registered_student(course_id=self.course_id)
         new_grade = 70
@@ -240,7 +225,7 @@ class TestClient(unittest.TestCase):
 
         # Test modifying grade for registered student
         student_id = self.get_one_registered_student(course_id=self.course_id)
-        new_status = random.choice(["Fail, Pass, Withdrawn"])
+        new_status = random.choice(["Fail", "Pass", "Withdrawn"])
         self.client.modify_status_for_course(
             course_id=self.course_id,
             student_id=student_id,
@@ -251,6 +236,31 @@ class TestClient(unittest.TestCase):
             course_id=self.course_id
         )
         self.assertEqual(new_status, changed_status)
+
+    def test_get_instructor_info_for_course(self):
+        # Test getting instructor information for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_instructor_info_for_course(course_id=self.unknown_course_id)
+
+        # Test getting valid instructor
+        instructor_info = self.client.get_instructor_info_for_course(course_id=self.course_id)
+        self.assertEqual("John", instructor_info["first_name"])
+        self.assertEqual("Smith", instructor_info["last_name"])
+
+    def test_get_num_student_registered(self):
+        # Test getting number of student registered for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_num_student_registered(course_id=self.unknown_course_id)
+
+    def test_get_num_student_unregistered(self):
+        # Test getting number of student unregistered for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_num_student_unregistered(course_id=self.unknown_course_id)
+
+    def test_get_num_assessment_for_course(self):
+        # Test getting number of assessment for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_num_assessment_for_course(course_id=self.unknown_course_id)
 
     def test_get_average_grade_for_assessment(self):
         # Test getting average grade for invalid assessment
@@ -266,13 +276,3 @@ class TestClient(unittest.TestCase):
         # Test getting review for unknown course
         with self.assertRaises(Exception):
             self.client.show_review_for_course(course_id=self.unknown_course_id)
-
-    def test_get_instructor_info_for_course(self):
-        # Test getting instructor information for unknown course
-        with self.assertRaises(Exception):
-            self.client.get_instructor_info_for_course(course_id=self.unknown_course_id)
-
-        # Test getting valid instructor
-        instructor_info = self.client.get_instructor_info_for_course(course_id=self.course_id)
-        self.assertEqual("John", instructor_info["first_name"])
-        self.assertEqual("Smith", instructor_info["last_name"])

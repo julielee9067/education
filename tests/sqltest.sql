@@ -9,7 +9,7 @@ INSERT INTO course(instructor_id) VALUES (10); -- missing PK course_id
 
 INSERT INTO student(first_name, last_name) VALUES ('Student', 'One'); -- missing PK student_id
 
-INSERT INTO review(review) VALUES ('the review for this course'); -- missing PK 
+INSERT INTO review(review) VALUES ('the review for this course'); -- missing course_id and student_id
 INSERT INTO review(review, course_id) VALUES ('the review for this course', 'AAA_2013J'); -- course_id NOT NULL 
 INSERT INTO review(student_id, review) VALUES (8462, 'the review for this course'); -- student_id NOT NULL
 INSERT INTO review(student_id, review, course_id) VALUES (8462, 'the review for this course', 'AAAInvalid'); -- invalid FK course_id 
@@ -28,8 +28,8 @@ INSERT INTO assessment(assessment_id, course_id, weight) VALUES (10000, 'invalid
 INSERT INTO student_assessment(score) VALUES (95); -- missing PK
 INSERT INTO student_assessment(assessment_id, score) VALUES (10000, 96); -- missing PK student_id
 INSERT INTO student_assessment(student_id, score) VALUES (8462, 97); -- missing PK assessment_id
-INSERT INTO student_assessment(student_id, assessment_id, score) VALUES (84620000, 1757, 97); -- invalid PK student_id
-INSERT INTO student_assessment(student_id, assessment_id, score) VALUES (8462, 1, 97); -- invalid PK assessment_id
+INSERT INTO student_assessment(student_id, assessment_id, score) VALUES (84620000, 1757, 97); -- invalid FK student_id
+INSERT INTO student_assessment(student_id, assessment_id, score) VALUES (8462, 1, 97); -- invalid FK assessment_id
 -- none of the above queries should pass
 
 -------------------------- Data Loading Tests ---------------------------

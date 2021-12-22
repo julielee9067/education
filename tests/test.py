@@ -1,7 +1,7 @@
 import random
 import unittest
 
-from mysql.connector import IntegrityError, ProgrammingError
+from mysql.connector import ProgrammingError
 
 from client.education import EducationClient
 
@@ -87,7 +87,14 @@ class TestClient(unittest.TestCase):
         num_student_after = self.client.get_num_student_registered(course_id=self.course_id)
         self.assertEqual(num_student_before + 1, num_student_after)
 
-        # Test registering existing student
+        # Test registering existing but unregistered student
+        student_id = self.get_one_unregistered_student(course_id=self.course_id)
+        num_student_before = self.client.get_num_student_registered(course_id=self.course_id)
+        self.client.register_student_for_course(student_id=student_id, course_id=self.course_id)
+        num_student_after = self.client.get_num_student_registered(course_id=self.course_id)
+        self.assertEqual(num_student_before + 1, num_student_after)
+
+        # Test registering registered student
         student_id = self.get_one_registered_student(course_id=self.course_id)
         num_student_before = self.client.get_num_student_registered(course_id=self.course_id)
         with self.assertRaises(Exception):
@@ -244,3 +251,28 @@ class TestClient(unittest.TestCase):
             course_id=self.course_id
         )
         self.assertEqual(new_status, changed_status)
+
+    def test_get_average_grade_for_assessment(self):
+        # Test getting average grade for invalid assessment
+        with self.assertRaises(Exception):
+            self.client.get_average_grade_for_assessment(assessment_id=-1)
+
+    def test_get_average_rating_for_course(self):
+        # Test getting average rating for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_average_rating_for_course(course_id=self.unknown_course_id)
+
+    def test_show_review_for_course(self):
+        # Test getting review for unknown course
+        with self.assertRaises(Exception):
+            self.client.show_review_for_course(course_id=self.unknown_course_id)
+
+    def test_get_instructor_info_for_course(self):
+        # Test getting instructor information for unknown course
+        with self.assertRaises(Exception):
+            self.client.get_instructor_info_for_course(course_id=self.unknown_course_id)
+
+        # Test getting valid instructor
+        instructor_info = self.client.get_instructor_info_for_course(course_id=self.course_id)
+        self.assertEqual("John", instructor_info["first_name"])
+        self.assertEqual("Smith", instructor_info["last_name"])

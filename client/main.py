@@ -67,6 +67,18 @@ def create_parser():
         help="Modify status for a course"
     )
 
+    group.add_argument(
+        "--show_review",
+        action="store_true",
+        help="Show reviews for a course"
+    )
+
+    group.add_argument(
+        "--get_instructor",
+        action="store_true",
+        help="Get instructor for a course"
+    )
+
     parser.add_argument(
         "--rating",
         dest="rating",
@@ -185,6 +197,16 @@ def main():
         if args.course_id is None:
             raise ValueError("Valid course ID is required for this operation.")
         client.get_average_rating_for_course(course_id=args.course_id)
+
+    if args.show_review:
+        if args.course_id is None:
+            raise ValueError("Valid course ID is required for this operation.")
+        client.show_review_for_course(course_id=args.course_id)
+
+    if args.get_instructor:
+        if args.course_id is None:
+            raise ValueError("Valid course ID is required for this operation.")
+        client.get_instructor_info_for_course(course_id=args.course_id)
 
 
 if __name__ == "__main__":

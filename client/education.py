@@ -53,7 +53,6 @@ class EducationClient:
         self.cursor.execute(query)
         student_info = self.cursor.fetchone()
         self.education.commit()
-        print(student_info)
         if student_info is None:
             raise Exception(f"Student info is not found for the assessment {assessment_id}")
 
@@ -109,7 +108,8 @@ class EducationClient:
             num_prev_attempt = 0
         query = f"""
             INSERT INTO student_registration (student_id, course_id, is_registered, num_of_prev_attempts, final_result)
-            VALUES ({student_id}, '{course_id}', TRUE, {num_prev_attempt}, NULL);
+            VALUES ({student_id}, '{course_id}', TRUE, {num_prev_attempt}, NULL)
+            ON DUPLICATE KEY UPDATE is_registered = TRUE;
         """
         self.cursor.execute(query)
         self.education.commit()
@@ -144,8 +144,8 @@ class EducationClient:
         self.cursor.execute(query)
         average = self.cursor.fetchone()
         self.education.commit()
-        print(f"The average grade is {average['average']}% for an assessment: {assessment_id}")
-        return average["average"]
+        print(f"The average grade is {average['average_score']}% for an assessment: {assessment_id}")
+        return average["average_score"]
 
     def get_num_student_registered(self, course_id: str) -> int:
         self.get_course_info(course_id=course_id)
@@ -215,8 +215,34 @@ class EducationClient:
         print(f"The average rating is {average['average_rating']} for a course: {course_id}")
         return average["average_rating"]
 
+    def show_review_for_course(self, course_id: str) -> None:
+        self.get_course_info(course_id=course_id)
+        query = f"""
+            SELECT * FROM review WHERE course_id = '{course_id}';
+        """
+        self.cursor.execute(query)
+        reviews = self.cursor.fetchall()
+        self.education.commit()
+        for review in reviews:
+            print(f"Rating: {review['rating']}, Review: {review['review']}")
+
+    def get_instructor_info_for_course(self, course_id: str) -> Dict:
+        self.get_course_info(course_id=course_id)
+        query = f"""
+            SELECT * FROM instructor 
+            WHERE instructor_id = (SELECT instructor_id FROM course WHERE course_id = '{course_id}');
+        """
+        self.cursor.execute(query)
+        instructor_info = self.cursor.fetchone()
+        self.education.commit()
+        if instructor_info is not None:
+            print(f"{instructor_info['first_name']} {instructor_info['last_name']} is teaching the course {course_id}")
+        else:
+            print(f"Cannot find any matching instructor with the course {course_id}")
+
+        return instructor_info
+
 
 if __name__ == "__main__":
     client = EducationClient()
-    info = client.get_student_info_for_course(student_id=123, course_id="AAA_2013J")
-    print(info)
+    client.get_instructor_info_for_course(course_id="AAA_2013J")

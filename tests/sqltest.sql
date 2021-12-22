@@ -1,10 +1,10 @@
 -- Manual Tests
 
-------------- Table Creation: check PK and FK constraints---------------------------
-INSERT INTO instructor(first_name) VALUES ('First');
-INSERT INTO instructor(first_name, last_name) VALUES ('First', 'Last');
+-------------------- Table Creation: check PK and FK constraints ---------------------------
+INSERT INTO instructor(first_name) VALUES ('First'); -- missing PK instructor_id
+INSERT INTO instructor(first_name, last_name) VALUES ('First', 'Last'); -- missing PK instructor_id
 
-INSERT INTO course VALUES ('newCourseId', 10); -- invalid FK to instructor
+INSERT INTO course VALUES ('newCourseId', 10); -- invalid FK to instructor_id
 INSERT INTO course(instructor_id) VALUES (10); -- missing PK course_id
 
 INSERT INTO student(first_name, last_name) VALUES ('Student', 'One'); -- missing PK student_id
@@ -30,6 +30,14 @@ INSERT INTO student_assessment(assessment_id, score) VALUES (10000, 96); -- miss
 INSERT INTO student_assessment(student_id, score) VALUES (8462, 97); -- missing PK assessment_id
 INSERT INTO student_assessment(student_id, assessment_id, score) VALUES (84620000, 1757, 97); -- invalid PK student_id
 INSERT INTO student_assessment(student_id, assessment_id, score) VALUES (8462, 1, 97); -- invalid PK assessment_id
+-- none of the above queries should pass
+
+-------------------------- Data Loading Tests ---------------------------
+-- if duplicate student information has been removed successfully
+SELECT count(*) from studentInfo;
+SELECT count(DISTINCT id_student) from studentInfo;
+-- The result of two query should be the same
+
 
 
 

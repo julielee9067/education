@@ -38,6 +38,7 @@ CREATE TABLE student (
     PRIMARY KEY (student_id)
 );
 
+-- clean up studentInfo table because it contains duplicate student information
 ALTER TABLE studentInfo ADD id_order INT NOT NULL AUTO_INCREMENT, ADD PRIMARY KEY (id_order);
 
 DELETE FROM studentInfo WHERE id_order NOT IN ( 

@@ -1,4 +1,5 @@
 import argparse
+from typing import List
 
 from client.education import EducationClient
 
@@ -139,13 +140,17 @@ def create_parser():
     return parser
 
 
+def check_arg(args: List) -> None:
+    if None in args:
+        raise Exception("Valid arguments are required for this operation.")
+
+
 def main():
     parser = create_parser()
     args = parser.parse_args()
     client = EducationClient()
     if args.register:
-        if args.student_id is None or args.course_id is None:
-            raise ValueError("Valid student ID and course ID are required for this operation.")
+        check_arg([args.student_id, args.course_id])
         client.register_student_for_course(
             student_id=args.student_id,
             course_id=args.course_id,
@@ -153,13 +158,11 @@ def main():
         )
 
     if args.unregister:
-        if args.student_id is None or args.course_id is None:
-            raise ValueError("Valid student ID and course ID are required for this operation.")
+        check_arg([args.student_id, args.course_id])
         client.unregister_student_from_course(student_id=args.student_id, course_id=args.course_id)
 
     if args.post_review:
-        if args.student_id is None or args.course_id is None or args.rating is None:
-            raise ValueError("Valid student ID, course ID, review content, and rating are required for this operation.")
+        check_arg([args.student_id, args.course_id, args.rating])
         client.post_review(
             course_id=args.course_id,
             review_content=args.review,
@@ -168,28 +171,23 @@ def main():
         )
 
     if args.average_assessment:
-        if args.assessment_id is None:
-            raise ValueError("Valid assessment ID is required for this operation.")
+        check_arg([args.assessment_id])
         client.get_average_grade_for_assessment(assessment_id=args.assessment_id)
 
     if args.get_num_registered:
-        if args.course_id is None:
-            raise ValueError("Valid course ID is required for this operation.")
+        check_arg([args.course_id])
         client.get_num_student_registered(course_id=args.course_id)
 
     if args.get_num_unregistered:
-        if args.course_id is None:
-            raise ValueError("Valid course ID is required for this operation.")
+        check_arg([args.course_id])
         client.get_num_student_unregistered(course_id=args.course_id)
 
     if args.get_num_assessments:
-        if args.course_id is None:
-            raise ValueError("Valid course ID is required for this operation.")
+        check_arg([args.course_id])
         client.get_num_assessment_for_course(course_id=args.course_id)
 
     if args.modify_grade:
-        if args.assessment_id is None or args.student_id is None or args.new_grade is None:
-            raise ValueError("Valid assessment ID, student ID, and new grade is required for this operation.")
+        check_arg([args.assessment_id, args.student_id, args.new_grade])
         client.modify_grade_for_assessment(
             assessment_id=args.assessment_id,
             student_id=args.student_id,
@@ -197,8 +195,7 @@ def main():
         )
 
     if args.modify_status:
-        if args.course_id is None or args.student_id is None or args.new_status is None:
-            raise ValueError("Valid course ID, student ID, and new status is required for this operation.")
+        check_arg([args.course_id, args.student_id, args.new_status])
         client.modify_status_for_course(
             course_id=args.course_id,
             student_id=args.student_id,
@@ -206,18 +203,15 @@ def main():
         )
 
     if args.average_rating:
-        if args.course_id is None:
-            raise ValueError("Valid course ID is required for this operation.")
+        check_arg([args.course_id])
         client.get_average_rating_for_course(course_id=args.course_id)
 
     if args.show_review:
-        if args.course_id is None:
-            raise ValueError("Valid course ID is required for this operation.")
+        check_arg([args.course_id])
         client.show_review_for_course(course_id=args.course_id)
 
     if args.get_instructor:
-        if args.course_id is None:
-            raise ValueError("Valid course ID is required for this operation.")
+        check_arg([args.course_id])
         client.get_instructor_info_for_course(course_id=args.course_id)
 
 

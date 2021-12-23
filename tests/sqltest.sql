@@ -36,7 +36,14 @@ INSERT INTO student_assessment(student_id, assessment_id, score) VALUES (8462, 1
 -- if duplicate student information has been removed successfully
 SELECT count(*) from studentInfo;
 SELECT count(DISTINCT id_student) from studentInfo;
--- The result of two query should be the same
+-- check all the tables
+SELECT * from instructor limit 10;
+SELECT * from course limit 10;
+SELECT * from student limit 10;
+SELECT * from review limit 10;
+SELECT * from student_registration limit 10;
+SELECT * from assessment limit 10;
+SELECT * from student_assessment limit 10;
 
 
 
